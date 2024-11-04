@@ -105,10 +105,17 @@ class ImapProtocol extends Protocol {
      */
     public function nextLine(): string {
         $line = "";
-        while (($next_char = fread($this->stream, 1)) !== false && $next_char !== "\n") {
+        $count = 0;
+        while (($next_char = fread($this->stream, 1)) !== false && !in_array($next_char, ["","\n"])) {
             $line .= $next_char;
+	        $count++;
+            if ($count > 500000) {
+                echo 'next line >' . $count . PHP_EOL;
+                dump($this->stream);
+                break;
+            }
         }
-        if ($line === "" && $next_char === false) {
+        if ($line === "" && ($next_char === false  || $next_char === "")) {
             throw new RuntimeException('empty response');
         }
         if ($this->debug) echo "<< ".$line."\n";

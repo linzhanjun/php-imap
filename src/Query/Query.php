@@ -225,12 +225,10 @@ class Query {
         }
         $flags = $this->client->getConnection()->flags($uids, $this->sequence);
         $headers = $this->client->getConnection()->headers($uids, "RFC822", $this->sequence);
-
         $contents = [];
         if ($this->getFetchBody()) {
             $contents = $this->client->getConnection()->content($uids, "RFC822", $this->sequence);
         }
-
         return [
             "uids"       => $uids,
             "flags"      => $flags,
@@ -335,7 +333,6 @@ class Query {
         $messages->total($available_messages->count());
 
         $message_key = ClientManager::get('options.message_key');
-
         $raw_messages = $this->fetch($available_messages);
 
         $msglist = 0;
@@ -366,6 +363,16 @@ class Query {
      */
     public function get(): MessageCollection {
         return $this->curate_messages($this->search());
+    }
+
+    /**
+     * get search
+     * @return Collection
+     * @throws GetMessagesFailedException
+     */
+    public function getSearch()
+    {
+        return $this->search();
     }
 
     /**

@@ -203,7 +203,6 @@ abstract class Protocol implements ProtocolInterface {
             STREAM_CLIENT_CONNECT,
             stream_context_create($this->defaultSocketOptions($transport))
         );
-
         if (!$stream) {
             throw new ConnectionFailedException($errstr, $errno);
         }

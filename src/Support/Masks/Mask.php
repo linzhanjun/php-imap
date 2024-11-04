@@ -73,7 +73,6 @@ class Mask {
 
         }elseif (strtolower(substr($method, 0, 3)) === 'set') {
             $name = Str::snake(substr($method, 3));
-
             if(isset($this->attributes[$name])) {
                 $this->attributes[$name] = array_pop($arguments);
 
